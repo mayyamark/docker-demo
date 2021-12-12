@@ -1,0 +1,27 @@
+version: "3.7" # schema version
+
+services:
+  app: # name of the service
+    image: node:12-alpine 
+    command: sh -c "yarn install && yarn dev"
+    ports:
+      - "3000:3000" 
+    working_dir: /app
+    volumes:
+      - "./:/app" 
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: todos
+
+  mysql: # name of the service
+    image: mysql:5.7
+    volumes:
+      - todo-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: todos
+
+volumes: # specify the needed volumes
+  todo-mysql-data: # using default options
